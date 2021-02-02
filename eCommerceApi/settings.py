@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
+
 ROOT_URLCONF = 'eCommerceApi.urls'
 
 TEMPLATES = [
