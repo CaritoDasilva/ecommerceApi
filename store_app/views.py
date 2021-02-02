@@ -95,4 +95,5 @@ def addStock(request):
         store=store_id, product=Product.objects.get(id=request.data['product_id']))
         return Response({'status': 200, 'data': request.data})
         
+        
 #{"code": 200, "message": "OK", "description": "Se ha creado el usuario nuevo correctamente"}
