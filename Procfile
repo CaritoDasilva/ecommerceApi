@@ -1,1 +1,1 @@
-web: gunicorn ecommerce-api-django-dasilva.wsgi --log-file -
+web: gunicorn ecommerceApi.wsgi --log-file -
