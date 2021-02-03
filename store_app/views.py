@@ -8,6 +8,9 @@ from rest_framework.response import Response
 from rest_framework.serializers import Serializer
 from .serializers import *
 from django.db.models import Sum
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
+from drf_spectacular.types import OpenApiTypes
+
 # Create your views here.
 
 # class Papayas(View):
@@ -60,6 +63,33 @@ def getStockByStore(request, id_store):
     return Response({ 'store_stock': store_stock })
 
 
+@extend_schema(
+        request=ProductSerializer,
+        responses={201: ProductSerializer},
+        description='POST/Add product',
+        parameters=[
+            OpenApiParameter(  
+                name='product_name',              
+                examples=[
+                    OpenApiExample(
+                        'Example 1',
+                        description='Nombre del producto',
+                        value='Jeans Classic'
+                    ),
+                ],                
+            ),
+            OpenApiParameter(
+                name='product_description',              
+                examples=[
+                    OpenApiExample(
+                        'Example 1',
+                        description='Descripción del producto',
+                        value='Jeans de color negro con detalles bordados'
+                    ),
+                ],
+            )
+        ],
+    )
 @api_view(['POST'])
 def addProduct(request):
     serializer = CreateProductSerializer(data=request.data)
@@ -67,8 +97,36 @@ def addProduct(request):
     data = serializer.data
     Product.objects.create(product_name=request.data['product_name'],
     product_description=request.data['product_description'])
-    return Response({'status': 200, 'data': data})
+    return Response({'status': 201, 'data': data})
 
+
+@extend_schema(
+        request=StoreSerializer,
+        responses={201: StoreSerializer},
+        description='POST/Add Store',
+        parameters=[
+            OpenApiParameter(  
+                name='store_name',              
+                examples=[
+                    OpenApiExample(
+                        'Example 1',
+                        description='Nombre de la tienda',
+                        value='Sucursal Las Condes'
+                    ),
+                ],                
+            ),
+            OpenApiParameter(
+                name='address',              
+                examples=[
+                    OpenApiExample(
+                        'Example 1',
+                        description='Dirección de la tienda',
+                        value='Metro apumanque'
+                    ),
+                ],
+            )
+        ],
+    )
 @api_view(['POST'])
 def addStore(request):
     serializer = CreateStoreSerializer(data=request.data)
@@ -78,6 +136,43 @@ def addStore(request):
     address=request.data['address'])
     return Response({'status': 200, 'data': data})
 
+@extend_schema(
+        request=StockSerializer,
+        responses={201: StockSerializer},
+        description='POST/Add Stock',
+        parameters=[
+            OpenApiParameter(  
+                name='store_id',              
+                examples=[
+                    OpenApiExample(
+                        'Example 1',
+                        description='Id de la tienda',
+                        value='1'
+                    ),
+                ],                
+            ),
+            OpenApiParameter(
+                name='product_id',              
+                examples=[
+                    OpenApiExample(
+                        'Example 1',
+                        description='Id del producto',
+                        value='1'
+                    ),
+                ],
+            ),
+            OpenApiParameter(
+                name='qty',              
+                examples=[
+                    OpenApiExample(
+                        'Example 1',
+                        description='stock del producto',
+                        value='200'
+                    ),
+                ],
+            )
+        ],
+    )
 @api_view(['POST'])
 def addStock(request):
     serializer = CreateStockSerializer(data=request.data)

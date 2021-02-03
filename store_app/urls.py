@@ -5,7 +5,7 @@ from django.conf.urls import url
 # from rest_framework_swagger.views import get_swagger_view
 from rest_framework.schemas import get_schema_view
 from django.views.generic import TemplateView
-from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 
 # schema_view = get_swagger_view(title='CaritoEcommerce API')
@@ -17,7 +17,10 @@ urlpatterns = [
       # YOUR PATTERNS
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     # Optional UI:
-    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(
+            template_name="swagger-ui.html", url_name="schema"
+        ),
+        name="swagger-ui"),
     path('api/products', getProducts),
     path('api/stores', getStores),
     path('api/stock', getStocks),

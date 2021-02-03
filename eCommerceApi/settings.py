@@ -156,6 +156,21 @@ django_on_heroku.settings(locals())
 REST_FRAMEWORK = {
 #   'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
   'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+  'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.JSONParser',
+    ]
+}
+
+SPECTACULAR_SETTINGS = {
+    'JSON_EDITOR': True,
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "persistAuthorization": False,
+        "displayOperationId": True,
+    },
+    
 }
 
 if config('DJANGO_PRODUCTION_ENV', default=False, cast=bool):
